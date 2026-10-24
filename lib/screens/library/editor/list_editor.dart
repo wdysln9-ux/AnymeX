@@ -59,8 +59,8 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
     return AnymeXScaffold(
       resizeToAvoidBottomInset: false,
       showHeader: true,
-      headerTitle: 'Custom Lists',
-      headerSubtitle: '${_lists.length} lists total',
+      headerTitle: 'Daftar Tontonan',
+      headerSubtitle: '${_lists.length} folder',
       headerAction: IconButton(
         onPressed: () {
           setState(() {
@@ -321,61 +321,34 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
 
   Widget _buildCardActionButtons(int index) {
     final theme = Theme.of(context);
-    final leftRadius = BorderRadius.only(
-      topLeft: Radius.circular(18.multiplyRadius()),
-      bottomLeft: Radius.circular(18.multiplyRadius()),
-      topRight: Radius.circular(5.multiplyRadius()),
-      bottomRight: Radius.circular(5.multiplyRadius()),
-    );
-    final rightRadius = BorderRadius.only(
-      topRight: Radius.circular(18.multiplyRadius()),
-      bottomRight: Radius.circular(18.multiplyRadius()),
-      topLeft: Radius.circular(5.multiplyRadius()),
-      bottomLeft: Radius.circular(5.multiplyRadius()),
-    );
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnymexOnTap(
-          scale: 0.92,
-          onTap: () => _showRenameDialog(index),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.12),
-              borderRadius: leftRadius,
-              border: Border.all(
-                color: theme.colorScheme.primary.withOpacity(0.2),
-                width: 0.8,
-              ),
-            ),
-            child: Icon(
-              Iconsax.edit,
-              color: theme.colorScheme.primary,
-              size: 16,
-            ),
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert_rounded,
+        color: theme.colorScheme.onSurface.withOpacity(0.55),
+      ),
+      onSelected: (value) {
+        if (value == 'rename') _showRenameDialog(index);
+        if (value == 'delete') _showDeleteDialog(index);
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: 'rename',
+          child: Row(
+            children: [
+              Icon(Iconsax.edit, size: 18),
+              SizedBox(width: 10),
+              Text('Ubah nama'),
+            ],
           ),
         ),
-        const SizedBox(width: 3),
-        AnymexOnTap(
-          scale: 0.92,
-          onTap: () => _showDeleteDialog(index),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.error.withOpacity(0.12),
-              borderRadius: rightRadius,
-              border: Border.all(
-                color: theme.colorScheme.error.withOpacity(0.2),
-                width: 0.8,
-              ),
-            ),
-            child: Icon(
-              Iconsax.trash,
-              color: theme.colorScheme.error,
-              size: 16,
-            ),
+        PopupMenuItem(
+          value: 'delete',
+          child: Row(
+            children: [
+              Icon(Iconsax.trash, size: 18, color: theme.colorScheme.error),
+              const SizedBox(width: 10),
+              Text('Hapus folder', style: TextStyle(color: theme.colorScheme.error)),
+            ],
           ),
         ),
       ],
@@ -387,14 +360,13 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHistoryCard(theme),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AnymeXText(
-                'Custom Lists',
+                'Folder',
                 style: TextStyle(
                   color: theme.colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
@@ -402,12 +374,13 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
                   letterSpacing: -0.3,
                 ),
               ),
-              AnymeXText(
-                '${_lists.length} lists',
-                style: TextStyle(
-                  color: theme.colorScheme.onSurface.opaque(0.6),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+              TextButton.icon(
+                onPressed: _showCreateListDialog,
+                icon: const Icon(Icons.add_rounded, size: 18),
+                label: const Text('Folder Baru'),
+                style: TextButton.styleFrom(
+                  foregroundColor: theme.colorScheme.primary,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                 ),
               ),
             ],
@@ -419,7 +392,7 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
               : ReorderableListView.builder(
                   onReorder: _isReordering ? _onReorder : (a, b) {},
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                      const EdgeInsets.fromLTRB(20, 4, 20, 130),
                   itemCount: _lists.length,
                   buildDefaultDragHandles: false,
                   itemBuilder: (context, index) {
@@ -438,11 +411,11 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
 
     return Container(
       key: ValueKey('list_$index'),
-      margin: const EdgeInsets.only(bottom: 3.5),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainer
-            .opaque(0.45, iReallyMeanIt: true),
-        borderRadius: radius,
+            .opaque(0.72, iReallyMeanIt: true),
+        borderRadius: BorderRadius.circular(20.multiplyRadius()),
         border: Border.all(
           color: theme.colorScheme.onSurface
               .opaque(0.08, iReallyMeanIt: true),
@@ -450,11 +423,11 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
         ),
       ),
       child: ClipRRect(
-        borderRadius: radius,
+        borderRadius: BorderRadius.circular(20.multiplyRadius()),
         child: InkWell(
           onTap: () => _openMediaEditorBottomSheet(context, index),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
                 if (_isReordering) ...[
@@ -485,7 +458,7 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
                       ),
                       const SizedBox(height: 2),
                       AnymeXText(
-                        '${listData.listData.length} items',
+                        '${listData.listData.length} anime',
                         size: 12,
                         color: theme.colorScheme.onSurface
                             .opaque(0.45, iReallyMeanIt: true),
@@ -504,27 +477,64 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
 
   Widget _buildCoverPreview(CustomListData listData) {
     final theme = Theme.of(context);
-    if (listData.listData.isEmpty) {
+    final posters = listData.listData
+        .map((item) => item.poster ?? '')
+        .where((poster) => poster.isNotEmpty)
+        .take(3)
+        .toList();
+
+    if (posters.isEmpty) {
       return Container(
-        width: 42,
-        height: 42,
+        width: 64,
+        height: 64,
         decoration: BoxDecoration(
           color: theme.colorScheme.primary.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10.multiplyRadius()),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: Icon(
-          Icons.playlist_play_rounded,
+          Icons.folder_rounded,
           color: theme.colorScheme.primary,
-          size: 22,
+          size: 28,
         ),
       );
     }
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10.multiplyRadius()),
-      child: AnymeXImage(
-        width: 42,
-        height: 42,
-        imageUrl: listData.listData.first.poster ?? '',
+
+    return SizedBox(
+      width: 70,
+      height: 64,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          for (var i = 0; i < posters.length; i++)
+            Positioned(
+              left: i * 9.0,
+              top: 3 + (i == posters.length - 1 ? 3.0 : 0.0),
+              child: Container(
+                width: 39,
+                height: 58,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: theme.colorScheme.surface,
+                    width: 2,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: AnymeXImage(
+                  width: 39,
+                  height: 58,
+                  imageUrl: posters[i],
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -582,7 +592,7 @@ class _CustomListsEditorState extends State<CustomListsEditor> {
       ),
       icon: const Icon(Icons.add_rounded),
       label: AnymeXText(
-        'New List',
+        'Folder Baru',
         style: TextStyle(
             fontWeight: FontWeight.w600, color: theme.colorScheme.onPrimary),
       ),
