@@ -38,14 +38,14 @@ class MediaHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.sizeOf(context).width > 700;
     final colors = context.colors;
-    final headerHeight = isDesktop ? 440.0 : 360.0;
+    final headerHeight = isDesktop ? 470.0 : 410.0;
     final coverUrl = data?.cover ?? posterUrl;
     final topPad = MediaQuery.paddingOf(context).top;
 
-    final posterWidth = isDesktop ? 158.0 : 120.0;
-    final posterHeight = isDesktop ? 236.0 : 178.0;
+    final posterWidth = isDesktop ? 184.0 : 142.0;
+    final posterHeight = isDesktop ? 276.0 : 214.0;
     final posterRadius =
-        isDesktop ? 24.multiplyRoundness() : 18.multiplyRoundness();
+        isDesktop ? 24.multiplyRoundness() : 20.multiplyRoundness();
 
     final status = data?.status ?? '';
 
@@ -93,7 +93,7 @@ class MediaHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -142,7 +142,7 @@ class MediaHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +156,7 @@ class MediaHeader extends StatelessWidget {
                         },
                         child: AnymeXText(data?.displayTitle ?? data?.title ?? 'Loading...',
                           variant: TextVariant.bold,
-                          size: isDesktop ? 28 : 20,
+                          size: isDesktop ? 30 : 22,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           isMarquee: false,
