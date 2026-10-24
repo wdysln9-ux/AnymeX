@@ -295,19 +295,63 @@ class _LibraryContent extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
-                        Container(
-                          width: 58,
-                          height: 62,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF252E3D),
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Icon(
-                            Icons.folder_rounded,
-                            size: 30,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
+                        SizedBox(
+                           width: 68,
+                           height: 68,
+                           child: Stack(
+                             alignment: Alignment.center,
+                             children: [
+                               Transform.rotate(
+                                 angle: -0.13,
+                                 child: Container(
+                                   width: 37,
+                                   height: 51,
+                                   decoration: BoxDecoration(
+                                     color: const Color(0xFF35435A),
+                                     borderRadius: BorderRadius.circular(8),
+                                     border: Border.all(color: const Color(0xFF526784)),
+                                   ),
+                                 ),
+                               ),
+                               Transform.rotate(
+                                 angle: 0.13,
+                                 child: Container(
+                                   width: 37,
+                                   height: 51,
+                                   decoration: BoxDecoration(
+                                     color: const Color(0xFF27374D),
+                                     borderRadius: BorderRadius.circular(8),
+                                     border: Border.all(color: const Color(0xFF405673)),
+                                   ),
+                                 ),
+                               ),
+                               Container(
+                                 width: 39,
+                                 height: 53,
+                                 decoration: BoxDecoration(
+                                   gradient: LinearGradient(
+                                     begin: Alignment.topLeft,
+                                     end: Alignment.bottomRight,
+                                     colors: [
+                                       theme.colorScheme.primary.withOpacity(0.95),
+                                       const Color(0xFF334B70),
+                                     ],
+                                   ),
+                                   borderRadius: BorderRadius.circular(9),
+                                   boxShadow: [
+                                     BoxShadow(
+                                       color: theme.colorScheme.primary.withOpacity(0.18),
+                                       blurRadius: 12,
+                                       offset: const Offset(0, 5),
+                                     ),
+                                   ],
+                                 ),
+                                 child: const Icon(Icons.play_arrow_rounded,
+                                     size: 25, color: Colors.white),
+                               ),
+                             ],
+                           ),
+                         ),
                         const SizedBox(width: 14),
                         Expanded(
                           child: Column(
