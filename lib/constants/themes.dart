@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color seedColor = Colors.red;
+const Color seedColor = Color(0xFF3D82F6);
 
 ThemeData lightMode = ThemeData(
   useMaterial3: true,
@@ -64,12 +64,11 @@ ThemeData darkMode = ThemeData(
   useMaterial3: true,
   fontFamily: 'Linotte',
   brightness: Brightness.dark,
-  scaffoldBackgroundColor:
-      ColorScheme.fromSeed(brightness: Brightness.dark, seedColor: seedColor)
-          .surface,
+  scaffoldBackgroundColor: const Color(0xFF0B0E16),
   colorScheme: ColorScheme.fromSeed(
     seedColor: seedColor,
     brightness: Brightness.dark,
+    surface: const Color(0xFF111722),
   ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.white),
