@@ -54,12 +54,12 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 12.0, bottom: 10.0),
+      padding: const EdgeInsets.only(top: 18.0, bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeaderTitle(),
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
           widget.isLoading
               ? const Center(child: AnymeXProgressIndicator())
               : _buildCarouselList(),
@@ -73,12 +73,12 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
 
   Widget _buildHeaderTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
       child: Row(
         children: [
           Container(
             width: 4,
-            height: 22,
+            height: 20,
             decoration: BoxDecoration(
               color: context.colors.primary,
               borderRadius: BorderRadius.circular(8),
@@ -96,7 +96,7 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
             child: AnymeXText(
               widget.title,
               variant: TextVariant.bold,
-              size: 18,
+              size: 19,
               color: context.colors.onSurface,
               isMarquee: true,
             ),
@@ -150,7 +150,7 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
           key: PageStorageKey<String>('carousel-${widget.title}'),
           itemCount: processedData.length,
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 15, top: 6, bottom: 14),
+          padding: const EdgeInsets.only(left: 18, top: 4, bottom: 12),
           itemBuilder: (context, index) =>
               _buildCarouselItem(processedData[index], enableAnimation, index),
         ),
