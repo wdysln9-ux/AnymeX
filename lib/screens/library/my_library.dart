@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:anymex/controllers/settings/settings.dart';
+import 'package:anymex/controllers/offline/offline_storage_controller.dart';
 import 'package:anymex/controllers/source/source_controller.dart';
 import 'package:anymex/database/isar_models/offline_media.dart';
 import 'package:anymex/models/Media/media.dart';
@@ -290,7 +291,10 @@ class _LibraryContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(18),
-                  onTap: () => controller.selectList(listIndex),
+                  onTap: () => navigate(() => CustomFolderPage(
+                    listName: list.listName ?? 'Folder',
+                    type: controller.type.value,
+                  )),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
@@ -300,79 +304,64 @@ class _LibraryContent extends StatelessWidget {
                           height: 62,
                           child: Builder(
                             builder: (context) {
-                              final folderIds = list.mediaIds ?? <String>[];
-                              final posters = controller.rawItems
-                                  .where((item) =>
-                                      folderIds.contains(item.mediaId) &&
-                                      (item.poster?.isNotEmpty ?? false))
-                                  .take(3)
-                                  .toList();
-                              return Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  for (var posterIndex = posters.length - 1;
-                                      posterIndex >= 0;
-                                      posterIndex--)
-                                    Positioned(
-                                      left: posterIndex * 10.0,
-                                      child: Transform.rotate(
-                                        angle: (posterIndex - 1) * 0.10,
-                                        child: Container(
-                                          width: 36,
-                                          height: 52,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(7),
-                                            border: Border.all(
-                                              color: const Color(0xFF526784),
-                                              width: 1.2,
-                                            ),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Colors.black26,
-                                                blurRadius: 5,
-                                                offset: Offset(0, 3),
+                              final storage = Get.find<OfflineStorageController>();
+                              return StreamBuilder(
+                                stream: storage.watchCustomListData(
+                                  list.listName ?? 'Folder',
+                                  controller.type.value,
+                                ),
+                                builder: (context, snapshot) {
+                                  final posters = (snapshot.data?.listData ?? <OfflineMedia>[])
+                                      .where((item) => item.poster?.isNotEmpty ?? false)
+                                      .take(3)
+                                      .toList();
+                                  return Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      for (var posterIndex = posters.length - 1;
+                                          posterIndex >= 0;
+                                          posterIndex--)
+                                        Positioned(
+                                          left: posterIndex * 10.0,
+                                          child: Transform.rotate(
+                                            angle: (posterIndex - 1) * 0.10,
+                                            child: Container(
+                                              width: 36,
+                                              height: 52,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: const Color(0xFF526784), width: 1.2),
+                                                boxShadow: const [
+                                                  BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 3)),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(6),
-                                            child: Image.network(
-                                              posters[posterIndex].poster!,
-                                              fit: BoxFit.cover,
-                                              errorBuilder: (_, __, ___) =>
-                                                  const ColoredBox(
-                                                color: Color(0xFF27374D),
-                                                child: Icon(
-                                                  Icons.movie_rounded,
-                                                  size: 17,
-                                                  color: Colors.white70,
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(6),
+                                                child: Image.network(
+                                                  posters[posterIndex].poster!,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (_, __, ___) => const ColoredBox(
+                                                    color: Color(0xFF27374D),
+                                                    child: Icon(Icons.movie_rounded, size: 17, color: Colors.white70),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  if (posters.isEmpty)
-                                    Container(
-                                      width: 40,
-                                      height: 52,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            theme.colorScheme.primary,
-                                            const Color(0xFF27374D),
-                                          ],
+                                      if (posters.isEmpty)
+                                        Container(
+                                          width: 40,
+                                          height: 52,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(colors: [theme.colorScheme.primary, const Color(0xFF27374D)]),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: const Icon(Icons.play_arrow_rounded, size: 25, color: Colors.white),
                                         ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Icon(
-                                        Icons.play_arrow_rounded,
-                                        size: 25,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                ],
+                                    ],
+                                  );
+                                },
                               );
                             },
                           ),
@@ -574,6 +563,143 @@ class _FolderSummaryValue extends StatelessWidget {
               ),
         ),
       ],
+    );
+  }
+}
+
+
+class CustomFolderPage extends StatelessWidget {
+  final String listName;
+  final ItemType type;
+
+  const CustomFolderPage({super.key, required this.listName, required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    final storage = Get.find<OfflineStorageController>();
+    final colors = Theme.of(context).colorScheme;
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        titleSpacing: 18,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(listName, maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w700)),
+            Text(type.name.toUpperCase(), style: TextStyle(
+              fontSize: 11, letterSpacing: 1.2, color: colors.primary,
+              fontWeight: FontWeight.w700)),
+          ],
+        ),
+        actions: [
+          IconButton(
+            tooltip: 'Atur folder',
+            onPressed: () => navigate(() => CustomListsEditor(type: type)),
+            icon: const Icon(Icons.tune_rounded),
+          ),
+          IconButton(
+            tooltip: 'Urutkan',
+            onPressed: () => showLibrarySortSheet(context, Get.find<LibraryController>()),
+            icon: const Icon(Icons.sort_rounded),
+          ),
+        ],
+      ),
+      body: StreamBuilder(
+        stream: storage.watchCustomListData(listName, type),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final items = snapshot.data?.listData ?? <OfflineMedia>[];
+          if (items.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.folder_open_rounded, size: 68, color: colors.primary.withOpacity(0.65)),
+                    const SizedBox(height: 16),
+                    const Text('Folder ini masih kosong', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    const Text('Tambahkan anime lewat menu lokal pada halaman anime.', textAlign: TextAlign.center),
+                    const SizedBox(height: 18),
+                    OutlinedButton.icon(
+                      onPressed: () => navigate(() => CustomListsEditor(type: type)),
+                      icon: const Icon(Icons.settings_rounded),
+                      label: const Text('Atur folder'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 18),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 4, height: 30,
+                        decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(4)),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text('${items.length} judul tersimpan',
+                        style: TextStyle(color: colors.onSurfaceVariant, fontWeight: FontWeight.w600))),
+                      Icon(Icons.grid_view_rounded, color: colors.primary),
+                    ],
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(14, 0, 14, 32),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.sizeOf(context).width > 700 ? 5 : 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 18,
+                    childAspectRatio: 0.56,
+                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final item = items[index];
+                    final tag = '${item.mediaId ?? item.id}-folder-${listName}-${type.name}';
+                    return AnymexOnTap(
+                      margin: 0,
+                      scale: 0.97,
+                      onTap: () {
+                        if (type.isAnime) {
+                          navigateWithAnimation(() => AnimeDetailsPage(
+                            media: Media.fromOfflineMedia(item, ItemType.anime), tag: tag));
+                        } else if (type.isManga) {
+                          navigateWithAnimation(() => MangaDetailsPage(
+                            media: Media.fromOfflineMedia(item, ItemType.manga), tag: tag));
+                        } else {
+                          final sourceName = item.season ?? '';
+                          final source = sourceName.isNotEmpty
+                              ? sourceController.getNovelExtensionByName(sourceName)
+                              : null;
+                          navigateWithAnimation(() => NovelDetailsPage(
+                            source: source,
+                            media: Media.fromOfflineMedia(item, ItemType.novel), tag: tag));
+                        }
+                      },
+                      child: MediaCardGate(
+                        itemData: item,
+                        tag: tag,
+                        variant: DataVariant.library,
+                        type: type,
+                      ),
+                    );
+                  }, childCount: items.length),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
