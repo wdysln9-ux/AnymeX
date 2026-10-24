@@ -116,16 +116,16 @@ class _MyLibraryState extends State<MyLibrary>
               scrollController: _scrollController,
               headerContent: Obx(
                 () => Header(
-                  title: controller.showFolderOverview.value ? 'Daftar Tontonan' : 'Library',
+                  title: controller.showFolderOverview.value ? 'Koleksi Saya' : 'Library',
                   subtitle: controller.showFolderOverview.value
-                      ? '${controller.customLists.length} folder'
-                      : 'All your local shi',
+                      ? '${controller.customLists.length} koleksi'
+                      : 'Semua anime dan koleksimu',
                   isSearchActive: controller.isSearchActive.value,
                   searchBar: HeaderSearchBar(
                     controller: controller.searchController,
                     onChanged: controller.search,
                     onClose: controller.toggleSearch,
-                    hintText: 'Search in Library...',
+                    hintText: 'Cari di koleksi...',
                   ),
                   actions: [
                     HeaderActionButton(
@@ -216,7 +216,7 @@ class _LibraryContent extends StatelessWidget {
     final lists = controller.customLists;
 
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 130),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 130),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
