@@ -193,13 +193,13 @@ class _LibraryContent extends StatelessWidget {
         );
       }
 
+      if (controller.showFolderOverview.value) {
+        return _buildFolderOverview(context, controller);
+      }
+
       final data = controller.processedItems;
       if (data.isEmpty) {
         return const SliverToBoxAdapter(child: EmptyLibrary());
-      }
-
-      if (controller.showFolderOverview.value) {
-        return _buildFolderOverview(context, controller);
       }
 
       if (controller.selectedListIndex.value == -1) {
