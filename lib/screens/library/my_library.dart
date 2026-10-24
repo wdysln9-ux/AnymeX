@@ -113,8 +113,10 @@ class _MyLibraryState extends State<MyLibrary>
               scrollController: _scrollController,
               headerContent: Obx(
                 () => Header(
-                  title: 'Library',
-                  subtitle: 'All your local shi',
+                  title: controller.showFolderOverview.value ? 'Daftar Tontonan' : 'Library',
+                  subtitle: controller.showFolderOverview.value
+                      ? '${controller.customLists.length} folder'
+                      : 'All your local shi',
                   isSearchActive: controller.isSearchActive.value,
                   searchBar: HeaderSearchBar(
                     controller: controller.searchController,
@@ -194,12 +196,119 @@ class _LibraryContent extends StatelessWidget {
         return const SliverToBoxAdapter(child: EmptyLibrary());
       }
 
+      if (controller.showFolderOverview.value) {
+        return _buildFolderOverview(context, controller);
+      }
+
       if (controller.selectedListIndex.value == -1) {
         return _buildHistoryView(context, data);
       } else {
         return _buildGridView(context, data);
       }
     });
+  }
+
+  Widget _buildFolderOverview(BuildContext context, LibraryController controller) {
+    final theme = Theme.of(context);
+    final lists = controller.customLists;
+
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 130),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            if (index == 0) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Folder',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: () => navigate(
+                        () => CustomListsEditor(type: controller.type.value),
+                      ),
+                      icon: const Icon(Icons.add_rounded, size: 18),
+                      label: const Text('Folder Baru'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            final listIndex = index - 1;
+            final list = lists[listIndex];
+            final count = list.mediaIds?.length ?? 0;
+            final isSelected = controller.selectedListIndex.value == listIndex;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Material(
+                color: theme.colorScheme.surfaceContainer.opaque(0.72, iReallyMeanIt: true),
+                borderRadius: BorderRadius.circular(20),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () => controller.selectList(listIndex),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 54,
+                          height: 58,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            Icons.folder_rounded,
+                            size: 30,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                list.listName ?? 'Folder',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                '$count anime',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          isSelected ? Icons.chevron_right_rounded : Icons.more_vert_rounded,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          childCount: lists.length + 1,
+        ),
+      ),
+    );
   }
 
   Widget _buildHistoryView(BuildContext context, List<OfflineMedia> data) {
