@@ -6,6 +6,8 @@ import 'package:anymex/database/isar_models/offline_media.dart';
 import 'package:anymex/models/Media/media.dart';
 import 'package:anymex/screens/anime/details_page.dart';
 import 'package:anymex/screens/library/controller/library_controller.dart';
+import 'package:anymex/screens/library/editor/list_editor.dart';
+import 'package:anymex/utils/theme_extensions.dart';
 import 'package:anymex/screens/library/widgets/history_model.dart';
 import 'package:anymex/screens/library/widgets/library_deps.dart';
 // import 'package:anymex/screens/library/widgets/library_header.dart';
