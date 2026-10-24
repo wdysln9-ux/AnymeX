@@ -240,8 +240,7 @@ class ChipTabs extends StatelessWidget {
   Widget _buildSettingsButton(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return GestureDetector(
-      onTap: () => navigate(
-          () => CustomListsEditor(type: controller.type.value)),
+      onTap: controller.openFolderOverview,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
