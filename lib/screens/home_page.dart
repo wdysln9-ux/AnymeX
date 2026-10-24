@@ -220,57 +220,6 @@ class _HomePageState extends State<HomePage> {
                     height: isDesktop ? 10 : statusBarHeight + appBarHeight + 10,
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: AnymeXTextSpans(
-                        fontSize: 27,
-                        spans: [
-                          const AnymeXTextSpan(
-                              text: 'Hey ',
-                              size: 30,
-                              variant: TextVariant.bold),
-                          AnymeXTextSpan(
-                              text:
-                                  '${serviceHandler.isLoggedIn.value ? serviceHandler.profileData.value.name : 'Guest'}',
-                              size: 30,
-                              color: context.colors.primary,
-                              variant: TextVariant.bold),
-                          const AnymeXTextSpan(
-                              text: ', what are we doing today?',
-                              size: 30,
-                              variant: TextVariant.bold),
-                        ],
-                        textAlign: textAlignment,
-                      ),
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: isMobile
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: AnymeXText(
-                          'Find your favourite anime or manga, manhwa or whatever you like!',
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .inverseSurface
-                                .withOpacity(0.8),
-                          ),
-                          textAlign: textAlignment,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                    ],
-                  ),
-                ),
                 () {
                   final homeWidgets = _buildHomeWidgets(
                     context: context,
