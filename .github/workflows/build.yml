@@ -7,9 +7,6 @@ on:
       - "pubspec.*"
       - ".github/workflows/build.yml"
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
 
 permissions:
   contents: read
