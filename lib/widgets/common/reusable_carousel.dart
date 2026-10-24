@@ -54,12 +54,12 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      padding: const EdgeInsets.only(top: 12.0, bottom: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeaderTitle(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
           widget.isLoading
               ? const Center(child: AnymeXProgressIndicator())
               : _buildCarouselList(),
@@ -73,12 +73,37 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
 
   Widget _buildHeaderTitle() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: AnymeXText(widget.title,
-        variant: TextVariant.semiBold,
-        size: 17,
-        color: context.colors.primary,
-        isMarquee: true,
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            height: 22,
+            decoration: BoxDecoration(
+              color: context.colors.primary,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: context.colors.primary.withValues(alpha: 0.28),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: AnymeXText(
+              widget.title,
+              variant: TextVariant.bold,
+              size: 18,
+              color: context.colors.onSurface,
+              isMarquee: true,
+            ),
+          ),
+          Icon(Icons.arrow_forward_ios_rounded,
+              size: 13, color: context.colors.onSurfaceVariant),
+        ],
       ),
     );
   }
@@ -125,7 +150,7 @@ class _ReusableCarouselState extends State<ReusableCarousel> {
           key: PageStorageKey<String>('carousel-${widget.title}'),
           itemCount: processedData.length,
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 15, top: 5, bottom: 10),
+          padding: const EdgeInsets.only(left: 15, top: 6, bottom: 14),
           itemBuilder: (context, index) =>
               _buildCarouselItem(processedData[index], enableAnimation, index),
         ),
