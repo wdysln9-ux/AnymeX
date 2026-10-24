@@ -239,14 +239,14 @@ class _LibraryContent extends StatelessWidget {
                       ),
                       Expanded(
                         child: _FolderSummaryValue(
-                          value: '${lists.length}',
-                          label: 'Folder',
+                          value: '${controller.rawItems.where((item) => ['RELEASING', 'AIRING', 'ONGOING'].contains((item.status ?? '').toUpperCase())).length}',
+                          label: 'Sedang Tayang',
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: _FolderSummaryValue(
-                          value: 'AnymeX',
-                          label: 'Koleksi Kamu',
+                          value: '${controller.rawItems.where((item) => ['FINISHED', 'COMPLETED'].contains((item.status ?? '').toUpperCase())).length}',
+                          label: 'Selesai',
                         ),
                       ),
                     ],
@@ -296,62 +296,87 @@ class _LibraryContent extends StatelessWidget {
                     child: Row(
                       children: [
                         SizedBox(
-                           width: 68,
-                           height: 68,
-                           child: Stack(
-                             alignment: Alignment.center,
-                             children: [
-                               Transform.rotate(
-                                 angle: -0.13,
-                                 child: Container(
-                                   width: 37,
-                                   height: 51,
-                                   decoration: BoxDecoration(
-                                     color: const Color(0xFF35435A),
-                                     borderRadius: BorderRadius.circular(8),
-                                     border: Border.all(color: const Color(0xFF526784)),
-                                   ),
-                                 ),
-                               ),
-                               Transform.rotate(
-                                 angle: 0.13,
-                                 child: Container(
-                                   width: 37,
-                                   height: 51,
-                                   decoration: BoxDecoration(
-                                     color: const Color(0xFF27374D),
-                                     borderRadius: BorderRadius.circular(8),
-                                     border: Border.all(color: const Color(0xFF405673)),
-                                   ),
-                                 ),
-                               ),
-                               Container(
-                                 width: 39,
-                                 height: 53,
-                                 decoration: BoxDecoration(
-                                   gradient: LinearGradient(
-                                     begin: Alignment.topLeft,
-                                     end: Alignment.bottomRight,
-                                     colors: [
-                                       theme.colorScheme.primary.withOpacity(0.95),
-                                       const Color(0xFF334B70),
-                                     ],
-                                   ),
-                                   borderRadius: BorderRadius.circular(9),
-                                   boxShadow: [
-                                     BoxShadow(
-                                       color: theme.colorScheme.primary.withOpacity(0.18),
-                                       blurRadius: 12,
-                                       offset: const Offset(0, 5),
-                                     ),
-                                   ],
-                                 ),
-                                 child: const Icon(Icons.play_arrow_rounded,
-                                     size: 25, color: Colors.white),
-                               ),
-                             ],
-                           ),
-                         ),
+                          width: 68,
+                          height: 62,
+                          child: Builder(
+                            builder: (context) {
+                              final folderIds = list.mediaIds ?? <String>[];
+                              final posters = controller.rawItems
+                                  .where((item) =>
+                                      folderIds.contains(item.mediaId) &&
+                                      (item.poster?.isNotEmpty ?? false))
+                                  .take(3)
+                                  .toList();
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  for (var posterIndex = posters.length - 1;
+                                      posterIndex >= 0;
+                                      posterIndex--)
+                                    Positioned(
+                                      left: posterIndex * 10.0,
+                                      child: Transform.rotate(
+                                        angle: (posterIndex - 1) * 0.10,
+                                        child: Container(
+                                          width: 36,
+                                          height: 52,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(7),
+                                            border: Border.all(
+                                              color: const Color(0xFF526784),
+                                              width: 1.2,
+                                            ),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(6),
+                                            child: Image.network(
+                                              posters[posterIndex].poster!,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (_, __, ___) =>
+                                                  const ColoredBox(
+                                                color: Color(0xFF27374D),
+                                                child: Icon(
+                                                  Icons.movie_rounded,
+                                                  size: 17,
+                                                  color: Colors.white70,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (posters.isEmpty)
+                                    Container(
+                                      width: 40,
+                                      height: 52,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            theme.colorScheme.primary,
+                                            const Color(0xFF27374D),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: const Icon(
+                                        Icons.play_arrow_rounded,
+                                        size: 25,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                         const SizedBox(width: 14),
                         Expanded(
                           child: Column(
