@@ -233,19 +233,19 @@ class _LibraryContent extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _FolderSummaryValue(
-                          value: '${controller.rawItems.length}',
+                          value: '${lists.expand((list) => list.mediaIds ?? <String>[]).toSet().length}',
                           label: 'Total Disimpan',
                         ),
                       ),
                       Expanded(
                         child: _FolderSummaryValue(
-                          value: '${controller.rawItems.where((item) => ['RELEASING', 'AIRING', 'ONGOING'].contains((item.status ?? '').toUpperCase())).length}',
+                          value: '${controller.rawItems.where((item) => (item.status ?? '').toUpperCase().contains('AIRING') || (item.status ?? '').toUpperCase().contains('RELEASING') || (item.status ?? '').toUpperCase().contains('ONGOING')).length}',
                           label: 'Sedang Tayang',
                         ),
                       ),
                       Expanded(
                         child: _FolderSummaryValue(
-                          value: '${controller.rawItems.where((item) => ['FINISHED', 'COMPLETED'].contains((item.status ?? '').toUpperCase())).length}',
+                          value: '${controller.rawItems.where((item) => (item.status ?? '').toUpperCase().contains('FINISHED') || (item.status ?? '').toUpperCase().contains('COMPLETED')).length}',
                           label: 'Selesai',
                         ),
                       ),
