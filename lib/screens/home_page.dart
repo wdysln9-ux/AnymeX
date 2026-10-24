@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Cari anime di sini',
+                    'Cari anime, manga, atau lainnya...',
                     style: TextStyle(
                       color: colors.onSurfaceVariant,
                       fontSize: 15,
@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                 scrollController: _scrollController,
                 headerContent: Header(
                   leading: const HeaderLogoButton(),
-                  title: 'AnymeX',
+                  title: 'Wibuku',
                   titleColor: Theme.of(context).colorScheme.primary,
                   subtitleWidget: const HeaderGreetingSubtitle(),
                   actions: const [HeaderProfileAvatar()],
