@@ -29,6 +29,7 @@ class LibraryController extends GetxController {
   final selectedListIndex = 0.obs;
   final type = ItemType.anime.obs;
   final isSearchActive = false.obs;
+  final showFolderOverview = true.obs;
 
   final currentSort = SortType.lastAdded.obs;
   final isAscending = false.obs;
@@ -224,7 +225,9 @@ class LibraryController extends GetxController {
   }
 
   void selectList(int index) {
+    showFolderOverview.value = false;
     if (selectedListIndex.value == index) return;
+
     _isSwitchingCategory = true;
     selectedListIndex.value = index;
     if (searchQuery.isNotEmpty) {
@@ -240,6 +243,10 @@ class LibraryController extends GetxController {
     if (index == -1) {
       snackBar('Hold to access history editor');
     }
+  }
+
+  void openFolderOverview() {
+    showFolderOverview.value = true;
   }
 
   void toggleSearch() {
