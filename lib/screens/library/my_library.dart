@@ -251,21 +251,21 @@ class _LibraryContent extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Material(
-                color: theme.colorScheme.surfaceContainer.opaque(0.72, iReallyMeanIt: true),
-                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xFF1A232E),
+                borderRadius: BorderRadius.circular(18),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(18),
                   onTap: () => controller.selectList(listIndex),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     child: Row(
                       children: [
                         Container(
-                          width: 54,
-                          height: 58,
+                          width: 58,
+                          height: 62,
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withOpacity(0.12),
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFF252E3D),
+                            borderRadius: BorderRadius.circular(14),
                           ),
                           child: Icon(
                             Icons.folder_rounded,
