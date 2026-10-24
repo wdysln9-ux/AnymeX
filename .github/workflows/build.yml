@@ -107,20 +107,16 @@ jobs:
           WATCHIUM_API_TOKEN=$WATCHIUM_API_TOKEN
           EOF
 
-      - name: Build APKs
+      - name: Build arm64 Android APK only
         run: |
           flutter pub get
-          flutter build apk --release --split-per-abi
-          flutter build apk --release
-          cd build/app/outputs/flutter-apk
-          mv app-armeabi-v7a-release.apk AnymeX-Android-armeabi-v7a.apk
-          mv app-arm64-v8a-release.apk AnymeX-Android-arm64-v8a.apk
-          mv app-x86_64-release.apk AnymeX-Android-x86_64.apk
-          mv app-release.apk AnymeX-Android-universal.apk
+          flutter build apk --release --target-platform android-arm64
+          mkdir -p artifacts
+          cp build/app/outputs/flutter-apk/app-release.apk artifacts/AnymeX-Android-arm64-v8a.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: AnymeX-Android-APKs
-          path: build/app/outputs/flutter-apk/AnymeX-Android-*.apk
+          name: AnymeX-Android-arm64-v8a
+          path: artifacts/AnymeX-Android-arm64-v8a.apk
           if-no-files-found: error
           retention-days: 14
