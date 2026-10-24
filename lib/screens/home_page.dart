@@ -14,6 +14,7 @@ import 'package:anymex/widgets/helper/platform_builder.dart';
 import 'package:anymex/widgets/history/tap_history_cards.dart';
 import 'package:anymex/widgets/non_widgets/snackbar.dart';
 import 'package:anymex/models/Media/media.dart';
+import 'package:anymex/screens/search/search_view.dart';
 import 'package:anymex/widgets/media_items/media_item.dart';
 import 'package:anymex_extension_runtime_bridge/anymex_extension_runtime_bridge.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +124,48 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Widget _buildHomeSearchBar(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 18),
+      child: Material(
+        color: colors.surfaceContainerHighest.withOpacity(0.72),
+        borderRadius: BorderRadius.circular(28),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(28),
+          onTap: () => Get.to(() => const SearchPage(searchTerm: '')),
+          child: Container(
+            height: 54,
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(
+                color: colors.onSurface.withOpacity(0.045),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.search_rounded,
+                    size: 23, color: colors.onSurfaceVariant),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Cari anime di sini',
+                    style: TextStyle(
+                      color: colors.onSurfaceVariant,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   List<Widget> _buildHomeWidgets({
     required BuildContext context,
     required ServiceHandler serviceHandler,
@@ -145,10 +188,18 @@ class _HomePageState extends State<HomePage> {
     }
     insertionIndex = math.min(insertionIndex, baseWidgets.length);
 
+    final homeWithSearch = <Widget>[
+      ...baseWidgets.take(1),
+      _buildHomeSearchBar(context),
+      ...baseWidgets.skip(1),
+    ];
+    final adjustedInsertionIndex =
+        insertionIndex + (insertionIndex >= 1 ? 1 : 0);
+
     return [
-      ...baseWidgets.take(insertionIndex),
+      ...homeWithSearch.take(adjustedInsertionIndex),
       ...localSections,
-      ...baseWidgets.skip(insertionIndex),
+      ...homeWithSearch.skip(adjustedInsertionIndex),
     ];
   }
 
