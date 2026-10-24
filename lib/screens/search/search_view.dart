@@ -710,9 +710,55 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                child: Row(
+                padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2, bottom: 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 4,
+                            height: 25,
+                            decoration: BoxDecoration(
+                              color: context.colors.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Jelajah',
+                            style: TextStyle(
+                              color: context.colors.onSurface,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: context.colors.primary.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              effectiveType.name.toUpperCase(),
+                              style: TextStyle(
+                                color: context.colors.primary,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
                     Material(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(50),
@@ -742,6 +788,8 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                     ),
                     const SizedBox(width: 10),
                     Expanded(child: _buildModernSearchBar()),
+                      ],
+                    ),
                   ],
                 ),
               ),
