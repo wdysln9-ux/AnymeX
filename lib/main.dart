@@ -381,7 +381,7 @@ class _MainAppState extends State<MainApp> {
       child: GetMaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
         debugShowCheckedModeBanner: false,
-        title: "AnymeX",
+        title: "Wibuku",
         theme: theme.lightTheme,
         darkTheme: theme.darkTheme,
         themeMode: theme.isSystemMode
@@ -548,7 +548,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: IconlyLight.home,
           selectedIcon: IconlyBold.home,
           onTap: onTap,
-          label: 'Home',
+          label: 'Beranda',
           subWidget: subWidget,
         );
       case 'Discover':
@@ -556,7 +556,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: Iconsax.discover_13,
           selectedIcon: Iconsax.discover5,
           onTap: onTap,
-          label: 'Discover',
+          label: 'Jelajah',
           subWidget: subWidget,
         );
       case 'Search':
@@ -564,7 +564,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: IconlyLight.search,
           selectedIcon: IconlyBold.search,
           onTap: onTap,
-          label: 'Search',
+          label: 'Cari',
           subWidget: subWidget,
         );
       case 'Library':
@@ -580,7 +580,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: Iconsax.clock,
           selectedIcon: Iconsax.clock5,
           onTap: onTap,
-          label: 'History',
+          label: 'Riwayat',
           subWidget: subWidget,
         );
       case 'Anime':
@@ -612,7 +612,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: Icons.extension_outlined,
           selectedIcon: Icons.extension_rounded,
           onTap: onTap,
-          label: 'Extensions',
+          label: 'Sumber',
           subWidget: subWidget,
         );
       case 'Stats':
@@ -620,7 +620,7 @@ class _FilterScreenState extends State<FilterScreen> {
           unselectedIcon: IconlyLight.chart,
           selectedIcon: IconlyBold.chart,
           onTap: onTap,
-          label: 'Stats',
+          label: 'Statistik',
           subWidget: subWidget,
         );
       default:
