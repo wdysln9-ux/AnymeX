@@ -221,6 +221,41 @@ class _LibraryContent extends StatelessWidget {
           (context, index) {
             if (index == 0) {
               return Padding(
+                padding: const EdgeInsets.only(bottom: 18),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF151C27),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: const Color(0xFF263142)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _FolderSummaryValue(
+                          value: '${controller.rawItems.length}',
+                          label: 'Total Disimpan',
+                        ),
+                      ),
+                      Expanded(
+                        child: _FolderSummaryValue(
+                          value: '${lists.length}',
+                          label: 'Folder',
+                        ),
+                      ),
+                      const Expanded(
+                        child: _FolderSummaryValue(
+                          value: 'AnymeX',
+                          label: 'Koleksi Kamu',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            if (index == 1) {
+              return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
                   children: [
@@ -244,7 +279,7 @@ class _LibraryContent extends StatelessWidget {
               );
             }
 
-            final listIndex = index - 1;
+            final listIndex = index - 2;
             final list = lists[listIndex];
             final count = list.mediaIds?.length ?? 0;
             final isSelected = controller.selectedListIndex.value == listIndex;
@@ -307,7 +342,7 @@ class _LibraryContent extends StatelessWidget {
               ),
             );
           },
-          childCount: lists.length + 1,
+          childCount: lists.length + 2,
         ),
       ),
     );
@@ -437,5 +472,39 @@ class _LibraryContent extends StatelessWidget {
           media: Media.fromOfflineMedia(items[index], ItemType.novel),
           tag: tag));
     }
+  }
+}
+
+class _FolderSummaryValue extends StatelessWidget {
+  final String value;
+  final String label;
+
+  const _FolderSummaryValue({required this.value, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: const Color(0xFF8995A5),
+                fontSize: 11,
+              ),
+        ),
+      ],
+    );
   }
 }
