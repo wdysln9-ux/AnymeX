@@ -214,7 +214,7 @@ class _AnimeHomePageState extends State<AnimeHomePage> {
                 _getActiveScrollController(isExtensions, index);
 
             final String title = currentType == ItemType.novel
-                ? 'Novels'
+                ? 'Novel'
                 : (serviceHandler.serviceType.value == ServicesType.simkl
                     ? (currentType == ItemType.anime ? 'Movies' : 'Series')
                     : (currentType == ItemType.anime ? 'Anime' : 'Manga'));
