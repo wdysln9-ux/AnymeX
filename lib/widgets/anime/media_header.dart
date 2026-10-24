@@ -38,12 +38,12 @@ class MediaHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.sizeOf(context).width > 700;
     final colors = context.colors;
-    final headerHeight = isDesktop ? 470.0 : 410.0;
+    final headerHeight = isDesktop ? 620.0 : 735.0;
     final coverUrl = data?.cover ?? posterUrl;
     final topPad = MediaQuery.paddingOf(context).top;
 
-    final posterWidth = isDesktop ? 184.0 : 142.0;
-    final posterHeight = isDesktop ? 276.0 : 214.0;
+    final posterWidth = isDesktop ? 220.0 : 218.0;
+    final posterHeight = isDesktop ? 330.0 : 326.0;
     final posterRadius =
         isDesktop ? 24.multiplyRoundness() : 20.multiplyRoundness();
 
@@ -93,9 +93,10 @@ class MediaHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -142,10 +143,11 @@ class MediaHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 14),
-                Expanded(
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
