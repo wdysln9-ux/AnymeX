@@ -33,7 +33,7 @@ ThemeData lightMode = ThemeData(
     prefixIconColor: Colors.grey.shade700,
     suffixIconColor: Colors.grey.shade700,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(18),
       borderSide: BorderSide.none,
     ),
   ),
@@ -46,7 +46,7 @@ ThemeData lightMode = ThemeData(
       foregroundColor: Colors.white,
       backgroundColor: seedColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(18),
       ),
     ),
   ),
@@ -70,6 +70,23 @@ ThemeData darkMode = ThemeData(
     brightness: Brightness.dark,
     surface: const Color(0xFF111722),
   ),
+  cardTheme: CardThemeData(
+    color: const Color(0xFF1A232E),
+    elevation: 0,
+    margin: EdgeInsets.zero,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(18),
+      side: const BorderSide(color: Color(0xFF263142), width: 0.6),
+    ),
+  ),
+  dividerColor: const Color(0xFF202A38),
+  chipTheme: ChipThemeData(
+    backgroundColor: const Color(0xFF1A232E),
+    selectedColor: const Color(0xFF3D82F6),
+    side: const BorderSide(color: Color(0xFF263142)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+    labelStyle: const TextStyle(color: Color(0xFFE7ECF5)),
+  ),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.white),
     bodyMedium: TextStyle(color: Colors.white),
@@ -85,7 +102,7 @@ ThemeData darkMode = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: Colors.grey.shade900,
+    fillColor: const Color(0xFF1A232E),
     hintStyle: TextStyle(color: Colors.grey.shade400),
     prefixIconColor: Colors.grey.shade500,
     suffixIconColor: Colors.grey.shade500,
