@@ -710,12 +710,12 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 2, bottom: 12),
+                      padding: const EdgeInsets.only(left: 2, bottom: 16),
                       child: Row(
                         children: [
                           Container(
@@ -757,39 +757,7 @@ class _SearchPageState extends State<SearchPage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                    Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(50),
-                      child: InkWell(
-                        onTap: () => Get.back(),
-                        borderRadius: BorderRadius.circular(50),
-                        child: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: context.colors.surfaceContainerHighest
-                                .opaque(0.35, iReallyMeanIt: true),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: context.colors.onSurface
-                                  .opaque(0.08, iReallyMeanIt: true),
-                              width: 0.5,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            size: 18,
-                            color: context.colors.onSurface,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(child: _buildModernSearchBar()),
-                      ],
-                    ),
+                    _buildModernSearchBar(),
                   ],
                 ),
               ),
