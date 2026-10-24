@@ -15,13 +15,13 @@ class ModernCardStyle implements MediaCardStyle {
   String get description => 'Full cover card with dark gradient title overlay at the bottom.';
 
   @override
-  double getHeight(bool isDesktop) => isDesktop ? 230 : 170;
+  double getHeight(bool isDesktop) => isDesktop ? 270 : 224;
 
   @override
   double getExtraHeight(bool isDesktop) => 0;
 
   @override
-  double getAspectRatio(bool isDesktop) => isDesktop ? (150 / 230) : (108 / 170);
+  double getAspectRatio(bool isDesktop) => isDesktop ? (178 / 270) : (142 / 224);
 
   @override
   Widget buildCard(BuildContext context, MediaCardProps props) {
@@ -52,15 +52,15 @@ class ModernCard extends CarouselCard {
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      constraints: BoxConstraints(maxWidth: desktop ? 150 : 108),
+      constraints: BoxConstraints(maxWidth: desktop ? 178 : 142),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.toDouble().multiplyRoundness()),
+        borderRadius: BorderRadius.circular(16.toDouble().multiplyRoundness()),
         child: Stack(
           children: [
             MediaPoster(
               imageUrl: itemData.poster ?? '',
               heroTag: tag,
-              radius: 12,
+              radius: 16,
               sourceId: itemData.source,
               isAnime: type == ItemType.anime,
             ),
